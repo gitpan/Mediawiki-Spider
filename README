@@ -1,0 +1,33 @@
+Mediawiki-Spider version 0.3
+=============================
+
+This is designed for two main things: copying wikis to flat HTML files in much the same manner as a wget might do it, and creating sites that contain the content of more than one wiki in static HTML. 
+
+Mediawiki::Spider is still in active development.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  HTML::Extract
+
+COPYRIGHT AND LICENCE
+
+Put the correct copyright and licence information here.
+
+Copyright (C) 2006 by Emma Tonkin
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.8.6 or,
+at your option, any later version of Perl 5 you may have available.
+
+
