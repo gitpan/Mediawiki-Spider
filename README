@@ -1,9 +1,16 @@
-Mediawiki-Spider version 0.3
+Mediawiki-Spider version 0.01
 =============================
 
-This is designed for two main things: copying wikis to flat HTML files in much the same manner as a wget might do it, and creating sites that contain the content of more than one wiki in static HTML. 
+The README is used to introduce the module and provide instructions on
+how to install the module, any machine dependencies it may have (for
+example C compilers and installed libraries) and any other information
+that should be provided before the module is installed.
 
-Mediawiki::Spider is still in active development.
+A README file is required for CPAN modules since CPAN extracts the
+README file from a module distribution so that people browsing the
+archive can use it get an idea of the modules uses. It is usually a
+good idea to provide version information here so that people can
+decide whether fixes for the module are worth downloading.
 
 INSTALLATION
 
@@ -18,7 +25,7 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  HTML::Extract
+  blah blah blah
 
 COPYRIGHT AND LICENCE
 

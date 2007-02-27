@@ -4,7 +4,7 @@ use 5.008006;
 use strict;
 use warnings;
 use LWP::UserAgent;
-use Data::Dumper;
+#use Data::Dumper;
 use HTML::Extract;
 require Exporter;
 
@@ -27,7 +27,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.3';
+our $VERSION = '0.31';
 
 
 # Preloaded methods go here.
@@ -280,8 +280,15 @@ sub do_wikisuck {
 			my $text=$extractor->gethtml($uri.$word,"tagid=content");
 			$text=~s/\<table class="wikitable"(.*?)\<\/table\>//;
 			#$text=~s/<div class="printfooter"(.*?)\<\/div\>//;
-			$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.html/g;
-			my @rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.html/,$text);
+			my @rawcategories;
+			if($self->extension()!=""){
+				my $ext=$self->extension();
+				$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.$ext/g;
+				@rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.$ext/,$text);
+			} else {
+				$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.html/g;
+				@rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.html/,$text);
+			}
 			if(!$#rawcategories<1){
 			foreach my $category (@rawcategories) {
 				# in page $word we found categories @rawcategories
@@ -449,17 +456,17 @@ Mediawiki::Spider - Perl extension for flat mirror of mediawikis
 
 =head1 DESCRIPTION
 
-Mediawiki::Spider gets the list of all pages on a Mediawiki and downloads the lot of them. It can also create a flat index of categorised pages. It's basically good for creating flat HTML versions of Mediawiki sites, merging multiple wikis into one flat site, that sort of thing.
+Essentially pretty simple...
 
 =head2 EXPORT
 
 None by default.
 
+
+
 =head1 SEE ALSO
 
-There were many ways to achieve this aim. This is one of them. Others (such as XSL stylesheets over mediawiki xml) would probably be cleaner. However, this particular method suited the requirements of the job it was written for, so it was chosen. 
-
-This code could be a lot cleaner, particularly as regards the HTML embedded in document writes and so forth. This version has been made available in case anybody needs something that does this job, but it's not by any means a tidy piece of code yet. 
+There were many ways to achieve this aim. This is one of them. Others (such as XSL stylesheets over mediawiki xml) would probably be cleaner.
 
 =head1 AUTHOR
 

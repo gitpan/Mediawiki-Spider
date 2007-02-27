@@ -28,7 +28,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.3';
+our $VERSION = '0.31';
 
 
 # Preloaded methods go here.
@@ -113,8 +113,11 @@ sub makeflatpages{
 			   	print "Looking at $uri$word (get page) \n";
 		   		my $text=$extractor->gethtml($uri.$word,"tagclass=wiki-content");
 				#print "$text\n";
-				$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.html/g;
-				my @rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.html/,$text);
+				#$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.html/g;
+				#my @rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.html/,$text);
+				my $ext=$self->extension();
+				$text=~s/\"\/$uriextension\/([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)/\"$1\.$ext/g;
+				my @rawcategories=split(/href=\"([0-9A-z\-\_\:\%\&\.\,\;\+\#]+)\.$ext/,$text);
 				foreach my $category (@rawcategories) {
 					$category=~/(^[0-9A-Za-z\-\_\:\%\&\.\,\;\+\#]+)$/;
 					if(!$1 eq ""){
@@ -132,7 +135,10 @@ sub makeflatpages{
 					$text=~s/\/confluence\/display\/context\//$contexturi/g;
 					my $cleanword=$self->urldecode($word);
 					open(FILEHANDLE,  ">$folder/$cleanword.".$self->extension()) || die("cannot open file: ($folder/$word.$self->extension()) ". $!);
-					print FILEHANDLE "<html><head><title>$word</title><link rel=stylesheet href=\"style.css\" type=\"text/css\"> </head><body>\n
+					print FILEHANDLE "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
+					print FILEHANDLE "<html  xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n";
+
+					print FILEHANDLE "<title>$word</title><link rel=stylesheet href=\"style.css\" type=\"text/css\"> </head><body>\n
 					<?php include('header.inc'); ?>";
 					open (FILE2,"<header.html");
 					my @rawheader=<FILE2>;
